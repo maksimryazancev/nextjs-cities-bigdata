@@ -16,7 +16,7 @@ const options = {
 }
 
 const ComponentGoogleMap = ({center}) => {
-  const api = process.env.NEXT_PUBLIC_GOOGLE_API_KEY;
+  const api = "AIzaSyA0D5afNh186o9e1EM8dg9Tzm6CyCJdLk0";
   // example: NEXT_PUBLIC_GOOGLE_API_KEY = AIzaSyA0D5afNh186o9e1EM8dg9Tzm6CyCJdLk0 in '.env' file
 
   return (

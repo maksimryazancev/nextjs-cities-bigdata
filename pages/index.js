@@ -1,14 +1,16 @@
-import Head from 'next/head'
 import {useEffect, useState} from "react";
-import {citiesSucceeded} from "../src/store/slices/citiesSlice";
+import Head from 'next/head'
+
 import {useDispatch, useSelector} from "react-redux";
-import {Box, Button, Container, Grid, IconButton} from "@mui/material";
-import Search from '../src/components/UI/Search'
-import City from "../src/components/City";
 import { FixedSizeList as List } from 'react-window';
+import Papa from 'papaparse';
+import {Box, Button, Container, IconButton} from "@mui/material";
 import AutoSizer from "react-virtualized-auto-sizer";
 import ReplayIcon from '@mui/icons-material/Replay';
-import Papa from 'papaparse';
+
+import {citiesSucceeded} from "../src/store/slices/citiesSlice";
+import Search from '../src/components/UI/Search'
+import City from "../src/components/City";
 import ModalWindow from "../src/components/UI/ModalWindow";
 
 export default function Home() {
