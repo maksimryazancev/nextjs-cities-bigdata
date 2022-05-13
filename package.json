@@ -1,0 +1,33 @@
+{
+  "name": "kostya-city",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@emotion/react": "^11.9.0",
+    "@emotion/styled": "^11.8.1",
+    "@fontsource/roboto": "^4.5.5",
+    "@mui/icons-material": "^5.6.2",
+    "@mui/material": "^5.7.0",
+    "@react-google-maps/api": "^2.10.2",
+    "@reduxjs/toolkit": "^1.8.1",
+    "lodash": "^4.17.21",
+    "next": "12.1.6",
+    "papaparse": "^5.3.2",
+    "react": "17.0.2",
+    "react-dom": "17.0.2",
+    "react-highlight-words": "^0.18.0",
+    "react-redux": "^8.0.1",
+    "react-virtualized-auto-sizer": "^1.0.6",
+    "react-window": "^1.8.7"
+  },
+  "devDependencies": {
+    "eslint": "8.15.0",
+    "eslint-config-next": "12.1.6"
+  }
+}
