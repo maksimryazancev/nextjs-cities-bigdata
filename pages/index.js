@@ -81,7 +81,7 @@ export default function Home() {
   return (
     <>
       <Head>
-        <title>Kostya cities</title>
+        <title>Cities big data</title>
       </Head>
       <Box>
         <Container>
