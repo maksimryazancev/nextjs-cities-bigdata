@@ -15,11 +15,11 @@ const ModalWindow = () => {
 
   return (
     <Drawer anchor="bottom" open={!!city} onClose={handleCloseModalWindow}>
-      <Box width="bottom" >
+      <Box width="bottom">
         <Container>
-          <Box height={600} display="flex" justifyContent="space-evenly" alignItems="center" flexDirection="column" >
-            <Typography variant="h3" component="p" >{city?.name}</Typography>
-              <ComponentGoogleMap center={{lat: Number(city?.lat), lng: Number(city?.lng),}}/>
+          <Box height={600} display="flex" justifyContent="space-evenly" alignItems="center" flexDirection="column">
+            <Typography variant="h3" component="p">{city?.name}</Typography>
+            <ComponentGoogleMap center={{lat: Number(city?.lat), lng: Number(city?.lng),}}/>
           </Box>
         </Container>
       </Box>

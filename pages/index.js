@@ -1,8 +1,8 @@
-import {useEffect, useState} from "react";
+import {forwardRef, useEffect, useState} from "react";
 import Head from 'next/head'
 
 import {useDispatch, useSelector} from "react-redux";
-import { FixedSizeList as List } from 'react-window';
+import {FixedSizeList as List} from 'react-window';
 import Papa from 'papaparse';
 import {Box, Button, Container, IconButton} from "@mui/material";
 import AutoSizer from "react-virtualized-auto-sizer";
@@ -12,6 +12,20 @@ import {citiesSucceeded} from "../src/store/slices/citiesSlice";
 import Search from '../src/components/UI/Search'
 import City from "../src/components/City";
 import ModalWindow from "../src/components/UI/ModalWindow";
+
+
+const outerElementType = forwardRef((props, ref) => {
+
+  function handleOnWheel() {
+    // Your handler goes here ...
+    console.log(props.children);
+  }
+
+  return (
+    <div ref={ref} {...props} ></div>
+  )
+});
+
 
 export default function Home() {
   const dispatch = useDispatch()
@@ -30,7 +44,8 @@ export default function Home() {
       const citiesId = [];
       data.shift();
 
-      const object = {cities: data.map((element, index) => {
+      const object = {
+        cities: data.map((element, index) => {
           citiesId.push(index + 1);
           return {
             id: (index + 1),
@@ -83,45 +98,46 @@ export default function Home() {
       <Head>
         <title>Cities big data</title>
       </Head>
-      <Box>
+      {/*<Box style={{height: "100vh"}}>*/}
+      {/*  <AutoSizer>*/}
+
+      {/*    {({height, width}) => (*/}
+      {/*      <List*/}
+      {/*        className="List"*/}
+      {/*        height={height}*/}
+      {/*        itemCount={neededCities?.length}*/}
+      {/*        itemSize={120}*/}
+      {/*        width={width}*/}
+      {/*        itemData={neededCities}*/}
+      {/*        outerElementType={outerElementType}*/}
+      {/*      >*/}
+      {/*        {City}*/}
+      {/*      </List>*/}
+      {/*    )}*/}
+
+      {/*  </AutoSizer>*/}
+      {/*</Box>*/}
+      <Box className="search">
         <Container>
           <Box display="flex" justifyContent="space-between" alignItems="center">
-            <Search />
+            <Search/>
 
             {(citiesWishVisit.length === 0
-              ?
+                ?
                 false
-              :
-              <Button variant="contained" style={{width: 200, marginLeft: 32}} onClick={handleVisit}>
-                I want to visit
-              </Button>
+                :
+                <Button variant="contained" style={{width: 200, marginLeft: 32}} onClick={handleVisit}>
+                  I want to visit
+                </Button>
             )}
-
             <IconButton color="primary" onClick={reloadNeededCities}>
-              <ReplayIcon />
+              <ReplayIcon/>
             </IconButton>
           </Box>
-          <Box style={{height: "90vh"}}>
-            <AutoSizer>
 
-              {({ height, width }) => (
-                <List
-                  className="List"
-                  height={height}
-                  itemCount={neededCities?.length}
-                  itemSize={120}
-                  width={width}
-                  itemData={neededCities}
-                >
-                  {City}
-                </List>
-              )}
-
-            </AutoSizer>
-          </Box>
         </Container>
-        <ModalWindow />
       </Box>
+      <ModalWindow/>
     </>
   )
 }

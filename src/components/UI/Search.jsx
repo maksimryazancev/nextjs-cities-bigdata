@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {TextField} from "@mui/material";
 import {useDispatch, useSelector} from "react-redux";
 import {search} from "../../store/slices/citiesSlice";
@@ -19,7 +19,9 @@ const Search = () => {
       fullWidth
       type="search"
       value={searchValue}
-      onChange={(e) => {handleSearch(e)}}
+      onChange={(e) => {
+        handleSearch(e)
+      }}
       sx={{mb: "1.5rem"}}
     />
   );
