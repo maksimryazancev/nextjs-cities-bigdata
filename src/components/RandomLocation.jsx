@@ -54,7 +54,6 @@ const RandomLocation = ({api, isOpen, closeModal, randomCity, reloadCity}) => {
               visible={true}
               options={options}
             />
-            {console.log(center)}
           </GoogleMap>
         </LoadScript>
 
