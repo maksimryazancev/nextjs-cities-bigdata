@@ -1757,6 +1757,11 @@
   "resolved" "https://registry.npmjs.org/lines-and-columns/-/lines-and-columns-1.2.4.tgz"
   "version" "1.2.4"
 
+"load-google-maps-api@^2.0.2":
+  "integrity" "sha512-x/gIurGtJ2Gd34LXhed5tupZnG7P1oc1WpOHkyFpX7NesXkwhCBPyCsindj5BGKuQHrsbwARFWOjJGiAPhoMgg=="
+  "resolved" "https://registry.npmjs.org/load-google-maps-api/-/load-google-maps-api-2.0.2.tgz"
+  "version" "2.0.2"
+
 "locate-path@^2.0.0":
   "integrity" "sha1-K1aLJl7slExtnA3pw9u7ygNUzY4="
   "resolved" "https://registry.npmjs.org/locate-path/-/locate-path-2.0.0.tgz"
@@ -2064,6 +2069,13 @@
   "integrity" "sha512-NuaNSa6flKT5JaSYQzJok04JzTL1CA6aGhv5rfLW3PgqA+M2ChpZQnAC8h8i4ZFkBS8X5RqkDBHA7r4hej3K9A=="
   "resolved" "https://registry.npmjs.org/queue-microtask/-/queue-microtask-1.2.3.tgz"
   "version" "1.2.3"
+
+"random-streetview@^1.1.1":
+  "integrity" "sha512-m59mE+mShzDGIbcU1Z4ImZSIcma+iyi3C8w7FaEWJDO7zEvP+f7ZIjf+0XyKGeeDcdRlBV2u6b+A9FnJGXIGuQ=="
+  "resolved" "https://registry.npmjs.org/random-streetview/-/random-streetview-1.1.1.tgz"
+  "version" "1.1.1"
+  dependencies:
+    "load-google-maps-api" "^2.0.2"
 
 "react-dom@^15.0.0 || ^16.0.0 || ^17.0.0 || ^18.0.0", "react-dom@^15.3.0 || ^16.0.0-alpha || ^17.0.0", "react-dom@^16.8 || ^17 || ^18", "react-dom@^16.8 || ^17.0 || ^18.0", "react-dom@^17.0.0 || ^18.0.0", "react-dom@^17.0.2 || ^18.0.0-0", "react-dom@>=16.6.0", "react-dom@17.0.2":
   "integrity" "sha512-s4h96KtLDUQlsENhMn1ar8t2bEa+q/YAtj8pPPdIjPDGBDIVNsrD9aXNWqspUe6AzKCIG0C1HZZLqLV7qpOBGA=="

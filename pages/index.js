@@ -1,79 +1,65 @@
-import {forwardRef, useEffect, useState} from "react";
+import {forwardRef, useEffect, useRef, useState} from "react";
 import Head from 'next/head'
+import Link from "next/link";
 
 import {useDispatch, useSelector} from "react-redux";
 import {FixedSizeList as List} from 'react-window';
-import Papa from 'papaparse';
-import {Box, Button, Container, IconButton} from "@mui/material";
+import {Box, Button, Container} from "@mui/material";
 import AutoSizer from "react-virtualized-auto-sizer";
-import ReplayIcon from '@mui/icons-material/Replay';
+import NotListedLocationIcon from '@mui/icons-material/NotListedLocation';
 
 import {citiesSucceeded} from "../src/store/slices/citiesSlice";
 import Search from '../src/components/UI/Search'
 import City from "../src/components/City";
-import ModalWindow from "../src/components/UI/ModalWindow";
+import ModalWindow from "../src/components/ModalWindow";
+import fetchCity from "../src/utils/fetchCity";
+import RandomLocation from "../src/components/RandomLocation";
+import getRandomInRange from "../src/utils/randomNumber";
 
 
-const outerElementType = forwardRef((props, ref) => {
+export default function HomePage() {
 
-  function handleOnWheel() {
-    // Your handler goes here ...
-    console.log(props.children);
-  }
+  const api = "AIzaSyA0D5afNh186o9e1EM8dg9Tzm6CyCJdLk0";
 
-  return (
-    <div ref={ref} {...props} ></div>
-  )
-});
-
-
-export default function Home() {
   const dispatch = useDispatch()
+
   const citiesId = useSelector(state => state.cities.listId);
+
   const cities = useSelector(state => state.cities.collection);
+
   const citiesWishVisit = useSelector(state => state.cities.wishVisit);
+
   const searchValue = useSelector(state => state.cities.searchValue);
+
   const [neededCities, setNeededCities] = useState([]);
 
-  useEffect(() => {
-    (async () => {
-      const response = await fetch('https://gist.githubusercontent.com/curran/13d30e855d48cdd6f22acdf0afe27286/raw/0635f14817ec634833bb904a47594cc2f5f9dbf8/worldcities_clean.csv')
-      const text = await response.text()
-      const {data} = await Papa.parse(text);
+  const [boolNeededCitites, setBoolNeededCitites] = useState(true);
 
-      const citiesId = [];
-      data.shift();
+  const [randomModal, setRandomModal] = useState(false);
 
-      const object = {
-        cities: data.map((element, index) => {
-          citiesId.push(index + 1);
-          return {
-            id: (index + 1),
-            name: element[0],
-            lat: element[1],
-            lng: element[2],
-            country: element[3],
-            population: element[4]
-          }
-        }),
-        citiesId: [...citiesId],
-      }
+  const [randomCity, setRandomCity] = useState({});
 
-      dispatch(citiesSucceeded(object));
-    })();
-  }, []); // data dispatch
+  const searchRef = useRef(null);
+
+  useEffect(async () => {
+    dispatch(citiesSucceeded( await fetchCity()));
+  }, []);
 
   useEffect(() => {
     setNeededCities(citiesId);
+
   }, [citiesId]);
 
   useEffect(() => {
+
     if (!/^ *$/.test(searchValue)) {
       const searchCities = [];
+
       cities.forEach(element => {
         if (element.name.toLowerCase().includes(searchValue.toLowerCase()) ||
           element.population.toLowerCase().includes(searchValue.toLowerCase()) ||
           element.country.toLowerCase().includes(searchValue.toLowerCase())) {
+
           searchCities.push(element.id)
         }
       })
@@ -82,62 +68,95 @@ export default function Home() {
 
     } else {
       setNeededCities(citiesId);
+
     }
   }, [searchValue]) // handle search
 
+  useEffect(() => {
+    searchRef.current?.focus()
+  }, [neededCities]) // focus search input
+
   const handleVisit = () => {
-    setNeededCities(citiesWishVisit);
+    if (boolNeededCitites) {
+      setNeededCities(citiesWishVisit);
+
+    } else {
+      setNeededCities(citiesId);
+
+    }
+    setBoolNeededCitites(prevState => !prevState)
   }
 
-  const reloadNeededCities = () => {
-    setNeededCities(citiesId);
+  const handleRandomModal = () => {
+
+    setRandomCity(cities[getRandomInRange(0, 4659, 0)]);
+
+    setRandomModal(true);
+
   }
+
+  // eslint-disable-next-line react/display-name
+  const innerElementType = forwardRef(({style, ...rest}, ref) => {
+    return (
+      <Container>
+        <Box
+          display="flex"
+          justifyContent="space-between"
+          marginTop="24px"
+          alignItems="center"
+        >
+          <Search ref={searchRef}/>
+          {(citiesWishVisit.length === 0
+              ?
+              false
+              :
+              <Button variant="contained" style={{width: 200, marginLeft: 16}} onClick={handleVisit}>
+                I want to visit
+              </Button>
+          )}
+            <Button onClick={ handleRandomModal } color="primary" variant="contained" size="large" style={{marginLeft: 16, width: 50}}>
+              <NotListedLocationIcon />
+            </Button>
+        </Box>
+        <div
+          ref={ref}
+          style={style}
+          {...rest}
+        />
+      </Container>
+    )
+  });
 
   return (
     <>
       <Head>
         <title>Cities big data</title>
       </Head>
-      {/*<Box style={{height: "100vh"}}>*/}
-      {/*  <AutoSizer>*/}
-
-      {/*    {({height, width}) => (*/}
-      {/*      <List*/}
-      {/*        className="List"*/}
-      {/*        height={height}*/}
-      {/*        itemCount={neededCities?.length}*/}
-      {/*        itemSize={120}*/}
-      {/*        width={width}*/}
-      {/*        itemData={neededCities}*/}
-      {/*        outerElementType={outerElementType}*/}
-      {/*      >*/}
-      {/*        {City}*/}
-      {/*      </List>*/}
-      {/*    )}*/}
-
-      {/*  </AutoSizer>*/}
-      {/*</Box>*/}
-      <Box className="search">
-        <Container>
-          <Box display="flex" justifyContent="space-between" alignItems="center">
-            <Search/>
-
-            {(citiesWishVisit.length === 0
-                ?
-                false
-                :
-                <Button variant="contained" style={{width: 200, marginLeft: 32}} onClick={handleVisit}>
-                  I want to visit
-                </Button>
-            )}
-            <IconButton color="primary" onClick={reloadNeededCities}>
-              <ReplayIcon/>
-            </IconButton>
-          </Box>
-
-        </Container>
+      <Box style={{height: "100vh"}}>
+        <AutoSizer>
+          {({height, width}) => (
+            <List
+              className="List"
+              height={height}
+              itemCount={neededCities?.length}
+              itemSize={120}
+              width={width}
+              itemData={neededCities}
+              innerElementType={innerElementType}
+            >
+              {City}
+            </List>
+          )}
+        </AutoSizer>
       </Box>
-      <ModalWindow/>
+      <ModalWindow api={api}/>
+      <RandomLocation
+        api={api}
+        isOpen={randomModal}
+        closeModal={() => setRandomModal(false)}
+        randomCity={randomCity}
+        reloadCity={handleRandomModal}
+      />
     </>
   )
 }
