@@ -15,6 +15,7 @@ import ModalWindow from "../src/components/ModalWindow";
 import fetchCity from "../src/utils/fetchCity";
 import RandomLocation from "../src/components/RandomLocation";
 import getRandomInRange from "../src/utils/randomNumber";
+import {isEmpty} from "lodash";
 
 
 export default function HomePage() {
@@ -42,10 +43,13 @@ export default function HomePage() {
   const searchRef = useRef(null);
 
   useEffect(async () => {
+
     dispatch(citiesSucceeded( await fetchCity()));
+
   }, []);
 
   useEffect(() => {
+
     setNeededCities(citiesId);
 
   }, [citiesId]);
@@ -67,14 +71,25 @@ export default function HomePage() {
       setNeededCities(searchCities);
 
     } else {
+
       setNeededCities(citiesId);
 
     }
   }, [searchValue]) // handle search
 
   useEffect(() => {
+
     searchRef.current?.focus()
+
   }, [neededCities]) // focus search input
+
+  useEffect(() => {
+
+    if (isEmpty(citiesWishVisit)) {
+      setNeededCities(citiesId);
+    }
+
+  }, [citiesWishVisit])
 
   const handleVisit = () => {
     if (boolNeededCitites) {
@@ -129,6 +144,7 @@ export default function HomePage() {
 
   return (
     <>
+      {console.log(citiesWishVisit)}
       <Head>
         <title>Cities big data</title>
       </Head>
